@@ -30,39 +30,45 @@ const UserDetailForm = () => {
   };
 
   // handle form submit -> ADD user API hit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("name", userData.name);
-      formData.append("phone", userData.phone);
-      formData.append("email", userData.email);
-      formData.append("address", userData.address);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const formData = new FormData();
+    formData.append("name", userData.name);
+    formData.append("phone", userData.phone);
+    formData.append("email", userData.email);
+    formData.append("address", userData.address);
 
-      if (selectedImage) {
-        formData.append("image", selectedImage);
-      }
-
-      const response = await axios.post(
-        `${API_BASE_URL}/api/add/user`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      toast.success("User Added Successfully!");
- const userId = response.data.data.id; 
-    localStorage.setItem("user_id", userId);
-      // redirect after success
-      navigate("/schedule");
-    } catch (error) {
-      console.error("Error adding user:", error);
-      toast.error("Failed to add user");
+    if (selectedImage) {
+      formData.append("image", selectedImage);
     }
-  };
+
+    const response = await axios.post(
+      `${API_BASE_URL}/api/add/user`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    const userId = response.data.data.id;
+    localStorage.setItem("user_id", userId);
+
+    if (response.data.alreadyExists) {
+      toast.info("User already exists, proceeding to schedule...");
+    } else {
+      toast.success("User Added Successfully!");
+    }
+
+    // redirect after success OR existing
+    navigate("/schedule");
+  } catch (error) {
+    console.error("Error adding user:", error);
+    toast.error("Failed to add user");
+  }
+};
 
   return (
     <Layout>

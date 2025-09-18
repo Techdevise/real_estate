@@ -21,12 +21,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Allowed origins for CORS
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(",")
-  : ["https://realEstate.techdevise.com/", "https://realEstate.techdevise.com/"];
 // const allowedOrigins = process.env.ALLOWED_ORIGINS
 //   ? process.env.ALLOWED_ORIGINS.split(",")
-//   : ["http://localhost:3300", "http://localhost:3300"];
+//   : ["https://realEstate.techdevise.com/", "https://realEstate.techdevise.com/"];
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : ["http://localhost:3300", "http://localhost:3300"];
 app.use(
   cors({
     origin: allowedOrigins,

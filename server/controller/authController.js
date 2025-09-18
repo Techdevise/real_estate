@@ -3,6 +3,26 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
+
+ DashBoard:async (req,res)=>{
+  try {
+       const userid = req.user.id;
+      const loginUser = await User.findOne({
+        where: { id: userid, role: 0 },
+        attributes: ["name", "email", "image"],
+      });
+    const userCount = await User.count({ where: { role: 3 } });
+    return res.status(200).json({
+      success: true,
+      data: { userCount,loginUser },
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+},
+
+
     // LOGIN
     login: async (req, res) => {
         try {
@@ -13,9 +33,9 @@ module.exports = {
                 return res.status(404).json({ success: false, message: "User not found" });
             }
 
-              if (user.role !== 0) {
-            return res.status(403).json({ success: false, message: "Access denied. Only role 0 can login." });
-        }
+            if (user.role !== 0) {
+                return res.status(403).json({ success: false, message: "Access denied. Only role 0 can login." });
+            }
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 return res.status(401).json({ success: false, message: "Invalid password" });
@@ -39,18 +59,8 @@ module.exports = {
     },
 
     // GET USER DETAILS
-    getUser: async (req, res) => {
-        try {
-            const user = await User.findByPk(req.user.id,{ attributes: { exclude: ["password"] }});
-            if (!user) {
-                return res.status(404).json({ success: false, message: "User not found" });
-            }
-            return res.status(200).json({ success: true, user });
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Internal server error" });
-        }
-    },
+
+
 
     // CHANGE PASSWORD
     changePassword: async (req, res) => {

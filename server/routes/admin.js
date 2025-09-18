@@ -16,8 +16,8 @@ var router = express.Router();
  
  router.use(authenticateToken); // Apply authentication middleware to all routes below
 
-
-router.get("/user", authController.getUser);
+router.get("/dashboard", authController.DashBoard);
+router.get("/user", userCantroller.getUser);
 router.post("/change-password", authController.changePassword);
 router.post("/logout", authController.logout);
 /* GET users listing. */
