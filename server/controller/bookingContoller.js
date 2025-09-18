@@ -40,12 +40,12 @@ module.exports = {
     }
   },
 
-getBookings: async (req, res) => {
+  getBookings: async (req, res) => {
     try {
-        const bookings = await Booking.findAll({
-            where: { status_booking: 1}
-        })
-           return res.status(201).json({
+      const bookings = await Booking.findAll({
+        where: { status_booking: 1 }
+      })
+      return res.status(201).json({
         success: true,
         message: "Get all Booking slots successfully",
         data: bookings,
@@ -59,6 +59,6 @@ getBookings: async (req, res) => {
         error: error.message,
       });
     }
-}
+  }
 
 };

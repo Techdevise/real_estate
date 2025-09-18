@@ -3,6 +3,7 @@ const { User } = require('../models');
 const { uploadImage } = require('../uitls/imageUplord');
 
 module.exports = {
+
   createUser: async (req, res) => {
     try {
       const { name, email, phone, address, } = req.body;
@@ -12,6 +13,7 @@ module.exports = {
         imagePath = await uploadImage(req.files.image);
       }
 
+       
       const newUser = await User.create({
         name,
         email,
@@ -35,4 +37,22 @@ module.exports = {
       });
     }
   },
+
+   getAllUser:async (req,res)=>{
+    try {
+       const users = await User.findAll({     where: { role: 3 },attributes: { exclude: ["password"] }});
+      return res.status(200).json({
+        success: true,
+        message: "Users fetched successfully",
+        data: users,
+      });
+    } catch (error) {
+         console.error(error);
+      return res.status(500).json({
+        success: false,
+        message: "Something went wrong",
+        error: error.message,
+      });
+    }
+   }
 };

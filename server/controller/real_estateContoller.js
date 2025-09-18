@@ -75,7 +75,9 @@ getParcelByLocation: async (req, res) => {
       buildings: resp.data?.buildings?.features?.length ? resp.data.buildings : demoParcel.buildings,
       zoning: resp.data?.zoning?.features?.length ? resp.data.zoning : demoParcel.zoning,
     };
+// console.log(data.parcels.features[0].properties);
 
+    
     res.json({
       success: true,
       message: "Parcel, building, and zoning data returned",

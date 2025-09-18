@@ -1,16 +1,27 @@
 var express = require('express');
-const userCantroller = require('../cantroller/userCantroller');
-const bookingContoller = require('../cantroller/bookingContoller');
+const userCantroller = require('../controller/userController');
+const bookingContoller = require('../controller/bookingContoller');
+const authController = require('../controller/authController');
+const authenticateToken = require('../middleware/verifyToken');
 
 var router = express.Router();
 
-/* GET users listing. */
+
+ router.post('/login',authController.login); 
+ 
  router.post('/add/user',userCantroller.createUser);
-
-
-
-
  router.post('/add/bookings',bookingContoller.addBooking);
  router.get('/bookings',bookingContoller.getBookings);
+ 
+ 
+ router.use(authenticateToken); // Apply authentication middleware to all routes below
+
+
+router.get("/user", authController.getUser);
+router.post("/change-password", authController.changePassword);
+router.post("/logout", authController.logout);
+/* GET users listing. */
+
+
 
 module.exports = router;
