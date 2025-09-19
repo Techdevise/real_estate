@@ -177,7 +177,7 @@ const UserDetailForm = () => {
             </Link>
             <button
               type="submit"
-              className="w-full text-center sm:w-1/2 bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 transition duration-300"
+              className="w-full text-center sm:w-1/2 bg-black/80 text-white font-bold py-3 rounded-lg hover:bg-black transition duration-300"
             >
               SCHEDULE NOW
             </button>

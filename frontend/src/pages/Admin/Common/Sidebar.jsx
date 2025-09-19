@@ -9,7 +9,7 @@ const AdminSidebar = ({ menu, toggleMenu }) => {
         className="inline-flex items-center justify-center h-20 w-full bg-blue-600 hover:bg-blue-500"
         onClick={toggleMenu}
       >
-        <span className="text-white text-3xl">{menu ? "Real_Esate" : "L"}</span>
+        <span className="text-white md:text-2xl text-xl">{menu ? "Real_Esate" : "R"}</span>
       </button>
 
       {/* Navigation */}

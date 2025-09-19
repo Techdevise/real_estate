@@ -18,27 +18,27 @@ const ListUser = () => {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // Fetch user from API
- const fetchUser = async (page = 1, search = "") => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/api/user`, {
-      params: {
-        page: search ? 1 : page,
-        limit: search ? 10000 : pagination.perPage,
-        search: search || undefined,
-      },
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-      },
-    });
+  const fetchUser = async (page = 1, search = "") => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/user`, {
+        params: {
+          page: search ? 1 : page,
+          limit: search ? 10000 : pagination.perPage,
+          search: search || undefined,
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      });
 
-    setUser(response.data.data);
-    if (!search) {
-      setPagination(response.data.meta);
+      setUser(response.data.data);
+      if (!search) {
+        setPagination(response.data.meta);
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
     }
-  } catch (error) {
-    console.error("Error fetching user:", error);
-  }
-};
+  };
 
   useEffect(() => {
     fetchUser(); // initial load
@@ -106,9 +106,7 @@ const ListUser = () => {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="2xl:text-2xl text-md font-semibold mb-6">
-          All User
-        </h2>
+        <h2 className="2xl:text-2xl text-md font-semibold mb-6">All User</h2>
         <div className="relative w-full max-w-xs">
           <input
             type="text"
@@ -128,8 +126,8 @@ const ListUser = () => {
         </Link> */}
       </div>
 
-      <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full md:text-sm text-[10px] text-center rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className=" md:text-xs text-[10px]  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th className="px-2 py-3">SR.NO</th>
             <th className="px-2 py-3">Name</th>
@@ -173,27 +171,27 @@ const ListUser = () => {
                 <td className="px-2 md:py-4 py-2">{user.email}</td>
                 <td className="px-2 md:py-4 py-2">{user.phone}</td>
                 <td className="px-2 md:py-4 py-2">
-  {user.bookings?.length > 0 ? (
-    <ul>
-      {user.bookings.map((booking) => (
-        <li key={booking.id}>{booking.date}</li>
-      ))}
-    </ul>
-  ) : (
-    "No Booking"
-  )}
-</td>
-<td className="px-2 md:py-4 py-2">
-  {user.bookings?.length > 0 ? (
-    <ul>
-      {user.bookings.map((booking) => (
-        <li key={booking.id}>{booking.slots}</li>
-      ))}
-    </ul>
-  ) : (
-    "-"
-  )}
-</td>
+                  {user.bookings?.length > 0 ? (
+                    <ul>
+                      {user.bookings.map((booking) => (
+                        <li key={booking.id}>{booking.date}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    "No Booking"
+                  )}
+                </td>
+                <td className="px-2 md:py-4 py-2">
+                  {user.bookings?.length > 0 ? (
+                    <ul>
+                      {user.bookings.map((booking) => (
+                        <li key={booking.id}>{booking.slots}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    "-"
+                  )}
+                </td>
                 {/* <td className="px-2 py-4">
                   <button
                     onClick={() => handleToggleStatus(user)}
@@ -212,19 +210,19 @@ const ListUser = () => {
                     List Attendance
                   </Link>
                 </td> */}
-               <td className="px-2 md:py-4 py-2 text-center">
-  {user.image ? (
-    <div className="flex justify-center">
-      <img
-        src={`${API_BASE_URL}${user.image}`}
-        alt={user.name}
-        className="w-16 h-16 object-cover rounded"
-      />
-    </div>
-  ) : (
-    "No Image"
-  )}
-</td>
+                <td className="px-2 md:py-4 py-2 text-center">
+                  {user.image ? (
+                    <div className="flex justify-center">
+                      <img
+                        src={`${API_BASE_URL}${user.image}`}
+                        alt={user.name}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                    </div>
+                  ) : (
+                    "No Image"
+                  )}
+                </td>
                 {/* <td className="px-2 md:py-4 py-2">
                   <Link
                     to={`/admin/users/${user.id}`}
@@ -252,7 +250,7 @@ const ListUser = () => {
             onClick={() => handlePageChange(pagination.currentPage - 1)}
             disabled={pagination.currentPage === 1}
             className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-          > 
+          >
             Previous
           </button>
           <span>

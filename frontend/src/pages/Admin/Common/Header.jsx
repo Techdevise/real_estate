@@ -15,7 +15,7 @@ const AdminHeader = ({ toggleSidebar,userData  }) => {
     <header className="flex items-center h-20 px-6 sm:px-10 bg-white relative">
       {/* Sidebar toggle */}
       <div className="mr-8 cursor-pointer" onClick={toggleSidebar}>
-        <FaBars className="w-8 h-8" />
+        <FaBars className="md:w-8 md:h-8 w-6 h-6" />
       </div>
 
       {/* Search */}
@@ -39,7 +39,7 @@ const AdminHeader = ({ toggleSidebar,userData  }) => {
             <span className="font-semibold">{userData?.name || "Admin"}</span>
             <span className="text-sm text-gray-600">{userData?.email || "Admin@example.com"}</span>
           </div>
-          <span className="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
+          <span className="md:h-12 h-8 md:w-12 w-8 md:ml-2 sm:ml-3 md:mr-2 bg-gray-100 rounded-full overflow-hidden">
             <img
               src="https://randomuser.me/api/portraits/men/68.jpg"
               alt="user profile"
@@ -51,7 +51,7 @@ const AdminHeader = ({ toggleSidebar,userData  }) => {
 
         {/* User panel dropdown */}
         {panelOpen && (
-          <div className="absolute top-20 right-0 bg-white border rounded-md p-2 w-56 shadow-lg z-50">
+          <div className="absolute top-20 right-0 bg-white border border-gray-200 rounded-md p-2 w-56 shadow-lg z-50">
             <div className="p-2 hover:bg-blue-100 cursor-pointer">Profile</div>
             <div className="p-2 hover:bg-blue-100 cursor-pointer">Messages</div>
             <div

@@ -59,7 +59,7 @@ const PropertyDetail = () => {
         <div className="flex flex-col justify-center items-center gap-4 mt-8">
           <Link
             to={"/user-detail"}
-            className="w-full sm:w-1/2 border text-center border-red-600 text-red-600 font-bold py-3 px-3 rounded-lg hover:bg-red-50 transition duration-300"
+            className="w-full sm:w-1/2 border text-center bg-black/80 border-black/30 text-white font-bold py-3 px-3 rounded-lg hover:bg-black transition duration-300"
           >
             ENQUIRE NOW
           </Link>

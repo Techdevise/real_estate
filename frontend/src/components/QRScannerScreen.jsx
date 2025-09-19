@@ -10,7 +10,7 @@ const QRScannerScreen = () => {
       <div className="flex flex-col items-center justify-center h-full p-4">
         <div className="flex items-center justify-between w-full mb-8">
           {/* Your Logo (Small) */}
-          <div className="w-8 h-8 bg-red-600 rounded-lg rotate-45"></div>
+          <div className="w-8 h-8 bg-black rounded-lg rotate-45"></div>
           <h2 className="text-xl font-bold text-gray-800">Scan QR Code</h2>
           <div className="w-8 h-8"></div> {/* Spacer */}
         </div>

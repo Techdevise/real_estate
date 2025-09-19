@@ -167,7 +167,7 @@ const ScheduleConfirmation = () => {
 
           <button
             onClick={handleSubmit}
-            className="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 transition duration-300"
+            className="w-full bg-black/80 text-white font-bold py-3 rounded-lg hover:bg-black transition duration-300"
           >
             SUBMIT
           </button>
