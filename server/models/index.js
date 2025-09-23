@@ -36,12 +36,16 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+// sequelize.sync({ force: false, alter: true })
+//   .then(() => console.log('Models synchronized successfully.'))
+//   .catch(err => console.error('Model synchronization error:', err));
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.User = require("./users")(sequelize, Sequelize);
 db.Booking = require("./bookings")(sequelize, Sequelize);
+db.Property = require("./property")(sequelize, Sequelize);
 
 db.User.hasMany(db.Booking, { foreignKey: "user_id", as: "bookings" });
 db.Booking.belongsTo(db.User, { foreignKey: "user_id", as: "user" });

@@ -13,6 +13,7 @@ import Dashboard from "./pages/Admin/Dashboard";
 import ListUser from "./pages/Admin/Users/Listing";
 import Login from "./pages/Auth/Login";
 import AdminPrivateRoute from "./context/AdminPrivateRoute";
+import ListProperty from "./pages/Admin/Property/Listing";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -22,7 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SplashScreen />} />
           <Route path="/scan" element={<QRScannerScreen />} />
-          <Route path="/property" element={<PropertyDetail />} />
+          <Route path="/propertys" element={<PropertyDetail />} />
           <Route path="/user-detail" element={<UserDetailForm />} />
           <Route path="/schedule" element={<ScheduleConfirmation />} />
 
@@ -38,6 +39,7 @@ function App() {
           >
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="users" element={<ListUser />} />
+            <Route path="property" element={<ListProperty />} />
           </Route>
         </Routes>
 

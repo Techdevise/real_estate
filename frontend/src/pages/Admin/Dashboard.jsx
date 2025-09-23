@@ -56,7 +56,7 @@ const Dashboard = () => {
       {/* Header */}
       <div className="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
         <div className="mr-6">
-          <h1 className="text-3xl font-semibold mb-2">Dashboard</h1>
+          <h1 className="text-3xl font-semibold ">Dashboard</h1>
         </div>
         {/* <div className="flex flex-wrap items-start justify-end -mb-3">
           <button className="inline-flex px-5 py-3 text-blue-600 hover:text-blue-700 focus:text-blue-700 hover:bg-blue-100 focus:bg-blue-100 border border-blue-600 rounded-md mb-3 items-center">

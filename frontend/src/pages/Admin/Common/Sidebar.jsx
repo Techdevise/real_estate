@@ -39,7 +39,7 @@ const AdminSidebar = ({ menu, toggleMenu }) => {
         </NavLink>
 
         <NavLink
-          to="/documents"
+          to="/admin/property"
           className={({ isActive }) =>
             `flex items-center py-3 px-2 rounded-lg ${
               isActive ? "bg-white text-blue-600" : "hover:bg-gray-700 text-gray-400"
@@ -47,8 +47,9 @@ const AdminSidebar = ({ menu, toggleMenu }) => {
           }
         >
           <FaFileAlt className="h-6 w-6" />
-          {menu && <span className="ml-2">Documents</span>}
+          {menu && <span className="ml-2">Property's</span>}
         </NavLink>
+        
       </nav>
 
       {/* Settings */}

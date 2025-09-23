@@ -6,7 +6,7 @@ var logger = require('morgan');
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/admin');
+var adminRouter = require('./routes/admin');
 require('dotenv').config();
 var app = express();
 
@@ -41,7 +41,7 @@ const frontendBuildPath = path.join(__dirname, "../frontend/dist");
 // Serve React build static files
 app.use(express.static(frontendBuildPath));
 app.use('/api/parcels', indexRouter);
-app.use('/api', usersRouter);
+app.use('/api', adminRouter);
 app.get("*", (req, res) => {
   res.sendFile(path.join(frontendBuildPath, "index.html"), function (err) {
     if (err) {
