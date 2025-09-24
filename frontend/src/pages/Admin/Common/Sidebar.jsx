@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { FaTachometerAlt, FaUsers, FaFileAlt, FaCog } from "react-icons/fa";
+import { FaTachometerAlt, FaUsers, FaCog, FaBuilding  } from "react-icons/fa";
 
 const AdminSidebar = ({ menu, toggleMenu }) => {
   return (
@@ -46,7 +46,7 @@ const AdminSidebar = ({ menu, toggleMenu }) => {
             } ${menu ? "justify-start" : "justify-center"}`
           }
         >
-          <FaFileAlt className="h-6 w-6" />
+          <FaBuilding className="h-6 w-6" />
           {menu && <span className="ml-2">Property's</span>}
         </NavLink>
         

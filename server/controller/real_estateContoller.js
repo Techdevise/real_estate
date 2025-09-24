@@ -67,80 +67,86 @@ getParcelByLocation: async (req, res) => {
     const url = `https://app.regrid.com/api/v2/parcels/point?lat=${lat}&lon=${lon}&token=${REGRID_TOKEN}`;
     const resp = await axios.get(url);
 
-  const data = {
-  parcels: resp.data?.parcels && resp.data.parcels.features
-    ? resp.data.parcels
-    : demoParcel.parcels,
-  buildings: resp.data?.buildings && resp.data.buildings.features
-    ? resp.data.buildings
-    : demoParcel.buildings,
-  zoning: resp.data?.zoning && resp.data.zoning.features
-    ? resp.data.zoning
-    : demoParcel.zoning,
-};
+    const data = {
+      parcels: resp.data?.parcels && resp.data.parcels.features
+        ? resp.data.parcels
+        : demoParcel.parcels,
+      buildings: resp.data?.buildings && resp.data.buildings.features
+        ? resp.data.buildings
+        : demoParcel.buildings,
+      zoning: resp.data?.zoning && resp.data.zoning.features
+        ? resp.data.zoning
+        : demoParcel.zoning,
+    };
 
     if (data.parcels.features && data.parcels.features.length > 0) {
-      const parcelFeature = data.parcels.features[0];
-      const props = parcelFeature.properties;
-      const geometry = parcelFeature.geometry;
+      const parcelsToInsert = [];
 
-      let latitude = parseFloat(props.fields?.lat) || parseFloat(lat);
-      let longitude = parseFloat(props.fields?.lon) || parseFloat(lon);
+      for (const parcelFeature of data.parcels.features) {
+        const props = parcelFeature.properties;
+        const geometry = parcelFeature.geometry;
 
-      if (!props.fields?.lat || !props.fields?.lon) {
-        const coordinates = geometry.coordinates[0][0];
-        const centerLon = coordinates.reduce((sum, coord) => sum + coord[0], 0) / coordinates.length;
-        const centerLat = coordinates.reduce((sum, coord) => sum + coord[1], 0) / coordinates.length;
-        longitude = centerLon;
-        latitude = centerLat;
+        let latitude = parseFloat(props.fields?.lat) || parseFloat(lat);
+        let longitude = parseFloat(props.fields?.lon) || parseFloat(lon);
+
+        if (!props.fields?.lat || !props.fields?.lon) {
+          const coordinates = geometry.coordinates[0][0];
+          const centerLon = coordinates.reduce((sum, coord) => sum + coord[0], 0) / coordinates.length;
+          const centerLat = coordinates.reduce((sum, coord) => sum + coord[1], 0) / coordinates.length;
+          longitude = centerLon;
+          latitude = centerLat;
+        }
+
+        const areaSqft =
+          props.fields?.sqft ||
+          props.fields?.ll_gissqft ||
+          props.fields?.ll_bldg_footprint_sqft ||
+          0;
+
+        const areaAcre =
+          props.fields?.gisacre ||
+          props.fields?.ll_gisacre ||
+          areaSqft / 43560;
+
+        const parcelId =
+          props.fields?.parcelnumb ||
+          props.fields?.parcelnumb_no_formatting ||
+          props.fields?.state_parcelnumb ||
+          "";
+
+        const existing = await Property.findOne({ where: { parcelId } });
+
+        if (!existing) {
+          parcelsToInsert.push({
+            parcelId,
+            ownerName: props.fields?.owner || "Unknown",
+            area: areaAcre,
+            location: props.fields?.address ||
+              `${props.fields?.saddno || ""} ${props.fields?.saddstr || ""} ${props.fields?.saddsttyp || ""}`.trim(),
+            latitude,
+            longitude,
+            price: 0,
+            image: "",
+            status: 1,
+            zoning: props.fields?.zoning || "",
+            useCode: props.fields?.usecode || "",
+            useDescription: props.fields?.usedesc || "",
+            legalDescription: props.fields?.legaldesc || "",
+            block: props.fields?.block || "",
+            city: props.fields?.scity || "",
+            state: props.fields?.state2 || "",
+            zipCode: props.fields?.szip5 || "",
+            buildingCount: props.fields?.ll_bldg_count || 0,
+            buildingArea: props.fields?.ll_bldg_footprint_sqft || 0,
+          });
+        }
       }
 
-      const areaSqft =
-        props.fields?.sqft ||
-        props.fields?.ll_gissqft ||
-        props.fields?.ll_bldg_footprint_sqft ||
-        0;
-
-      const areaAcre =
-        props.fields?.gisacre ||
-        props.fields?.ll_gisacre ||
-        areaSqft / 43560;
-
-      // ✅ check if already exists
-      const parcelId =
-        props.fields?.parcelnumb ||
-        props.fields?.parcelnumb_no_formatting ||
-        props.fields?.state_parcelnumb ||
-        "";
-
-      let existing = await Property.findOne({ where: { parcelId } });
-
-      if (!existing) {
-        await Property.create({
-          parcelId,
-          ownerName: props.fields?.owner || "Unknown",
-          area: areaAcre,
-           location: props.fields?.address || `${props.fields?.saddno || ""} ${props.fields?.saddstr || ""} ${props.fields?.saddsttyp || ""}`.trim(),
-          latitude,
-          longitude,
-          price: 0,
-          image: "",
-          status: 1,
-          zoning: props.fields?.zoning || "",
-          useCode: props.fields?.usecode || "",
-          useDescription: props.fields?.usedesc || "",
-          legalDescription: props.fields?.legaldesc || "",
-          block: props.fields?.block || "",
-          city: props.fields?.scity || "",
-          state: props.fields?.state2 || "",
-          zipCode: props.fields?.szip5 || "",
-          buildingCount: props.fields?.ll_bldg_count || 0,
-          buildingArea: props.fields?.ll_bldg_footprint_sqft || 0,
-        });
-
-        console.log(`✅ Property stored: ${parcelId || "Unknown Parcel"}`);
+      if (parcelsToInsert.length > 0) {
+        await Property.bulkCreate(parcelsToInsert);
+        console.log(`✅ ${parcelsToInsert.length} new properties stored`);
       } else {
-        console.log(`⚠️ Property already exists: ${parcelId}`);
+        console.log("⚠️ No new properties to insert (all already exist)");
       }
     } else {
       console.log("No parcel features found in response");
@@ -160,6 +166,7 @@ getParcelByLocation: async (req, res) => {
     });
   }
 },
+
 
 
   // 🆔 Parcel ID (UUID) se fetch

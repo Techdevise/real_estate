@@ -18,7 +18,7 @@ function SetViewOnLocation({ coords }) {
   const map = useMap();
   useEffect(() => {
     if (coords) {
-      map.setView(coords, 13);
+      map.setView(coords, 20);
     }
   }, [coords, map]);
   return null;
@@ -45,7 +45,7 @@ function LocateControl({ coords }) {
       </svg>`;
 
       div.onclick = () => {
-        map.setView(coords, 15); // zoom closer to user
+        map.setView(coords, 20); 
       };
       return div;
     };
@@ -124,7 +124,7 @@ const SplashScreen = () => {
         {userLocation && (
           <MapContainer
             center={userLocation}
-            zoom={13}
+            zoom={20}
             scrollWheelZoom={true}
             style={{ height: "100%", width: "100%" }}
             zoomControl={false}
